@@ -1,10 +1,13 @@
-import start_tf
-from start_tf import *
-from start_tf import _TAGS
+import utils.start_tf
+from utils.start_tf import *
+from utils.start_tf import _TAGS
+from utils.test_dir import save_make_dir
 
+source_dir = '../data/test/'
+save_make_dir(source_dir)
 
 def test():
-    img = Image.open('../../data/test/img.png')
+    img = Image.open(source_dir+'img.png')
     img = np.reshape(np.array(img), [1, 256, 256, 3])
 
     # Encoding speed
@@ -23,13 +26,13 @@ def test():
     #     dec = decode(eps)
     # print("Decoding latency {} sec/img".format((time.time() - t) / (1 * 10)))
     img = Image.fromarray(dec[0])
-    img.save('../../data/test/dec.png')
+    img.save(source_dir+'dec.png')
 
     # Manipulation
     print('manipulation')
     dec, _ = manipulate(eps, _TAGS.index('Smiling'), 0.66)
     img = Image.fromarray(dec[0])
-    img.save('../../data/test/smile.png')
+    img.save(source_dir+'smile.png')
 
 
 if __name__ == '__main__':

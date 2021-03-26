@@ -9,3 +9,12 @@ data/celeba/index/list_attr_celeba_3.txt
 data/celeba/index/list_bbox_celeba.txt
 data/celeba/index/list_landmarks_align_celeba.txt
 data/celeba/index/list_landmarks_celeba.txt
+.idea/.gitignore
+.idea/deployment.xml
+.idea/misc.xml
+.idea/modules.xml
+.idea/TFM.iml
+.idea/vcs.xml
+.idea/inspectionProfiles/profiles_settings.xml
+.idea/inspectionProfiles/Project_Default.xml
+/data/celeba
