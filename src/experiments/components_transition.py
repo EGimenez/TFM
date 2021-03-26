@@ -23,7 +23,7 @@ def test_drop_components_1_1_transition():
     # 082099
     # 032080
 
-    peoples = ['082099', '032080', 'img']
+    peoples = ['082099', '032080']
     components = [195309, 194582, 192426, 120327]
 
     for p in peoples:
