@@ -4,7 +4,7 @@ from utils.start_tf import _TAGS
 from utils.test_dir import save_make_dir
 
 source_dir = '../data/test/'
-save_make_dir(source_dir) 
+save_make_dir(source_dir)
 
 def test():
     img = Image.open(source_dir+'img.png')
@@ -14,17 +14,17 @@ def test():
     print('encoding')
     t = time.time()
     eps = encode(img)
-    # for _ in tqdm(range(10)):
-    #     eps = encode(img)
-    print("Encoding latency {} sec/img".format((time.time() - t) / (1)))
+    for _ in tqdm(range(10)):
+        eps = encode(img)
+    print("Encoding latency {} sec/img".format((time.time() - t) / (1*10)))
 
     # Decoding speed
     print('decoding')
     t = time.time()
     dec = decode(eps)
-    # for _ in tqdm(range(10)):
-    #     dec = decode(eps)
-    print("Decoding latency {} sec/img".format((time.time() - t) / (1)))
+    for _ in tqdm(range(10)):
+        dec = decode(eps)
+    print("Decoding latency {} sec/img".format((time.time() - t) / (1*10)))
     img = Image.fromarray(dec[0])
     img.save(source_dir+'dec.png')
 
