@@ -12,19 +12,19 @@ def test():
 
     # Encoding speed
     print('encoding')
-    eps = encode(img)
     t = time.time()
+    eps = encode(img)
     # for _ in tqdm(range(10)):
     #     eps = encode(img)
-    # print("Encoding latency {} sec/img".format((time.time() - t) / (1 * 10)))
+    print("Encoding latency {} sec/img".format((time.time() - t) / (1)))
 
     # Decoding speed
     print('decoding')
+    t = time.time()
     dec = decode(eps)
-    # t = time.time()
     # for _ in tqdm(range(10)):
     #     dec = decode(eps)
-    # print("Decoding latency {} sec/img".format((time.time() - t) / (1 * 10)))
+    print("Decoding latency {} sec/img".format((time.time() - t) / (1)))
     img = Image.fromarray(dec[0])
     img.save(source_dir+'dec.png')
 
