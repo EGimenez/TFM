@@ -50,4 +50,6 @@ with open(result_dir+'distances_a_'+my_attribute+'_v_'+str(my_value)+'_n_'+str(m
 with open(result_dir+'component_a_'+my_attribute+'_v_'+str(my_value)+'_n_'+str(my_num)+'.pickle', 'wb') as handle:
     pickle.dump(component, handle, protocol=pickle.HIGHEST_PROTOCOL)
 
+glow_api.save_decoce(component, result_dir, 'avg_img_a_'+my_attribute+'_v_'+str(my_value)+'_n_'+str(my_num)+'.jpg')
+
 print('done')
