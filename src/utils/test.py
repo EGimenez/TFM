@@ -4,7 +4,7 @@ from utils.start_tf import _TAGS
 from utils.test_dir import save_make_dir
 
 source_dir = '../data/test/'
-save_make_dir(source_dir)
+save_make_dir(source_dir) 
 
 def test():
     img = Image.open(source_dir+'img.png')
