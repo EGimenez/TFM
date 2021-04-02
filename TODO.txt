@@ -8,10 +8,13 @@ RoadMap
 · Que pasa si se hace la imagen especular? [x]
     · Por que en el 0,..., 0 el fondo es blanco?
 · Suma de vectores [x]
-· Distribucion de colores en zonas concretas de una imagen
-· Normalazing Flow = Correlation Structure
-· PPT [ ]
+· Distribucion de colores en zonas concretas de una imagen []
+· Normalazing Flow = Correlation Structure []
+· PPT [x]
+· Por qué el contorno se ve tan bien? []
+· Por qué 0 es igual a blanco? []
+· Sumar smiling a una cara real []
 
-· AWS GPU
+· AWS GPU [x]
 · Telefonica GPU
 · Leer papers
