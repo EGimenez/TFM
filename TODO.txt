@@ -1,6 +1,6 @@
 RoadMap
 · Redo transitions/norms among two images [ ]
-· Facenet et al
+· Facenet et al [ ]
 · Average distance person [x]
 · Average distance any person [x]
 · Average distance component attribute [Smiling...]
@@ -14,6 +14,18 @@ RoadMap
 · Por qué el contorno se ve tan bien? []
 · Por qué 0 es igual a blanco? []
 · Sumar smiling a una cara real []
+
+Next Steps
+· Feature Translation
+· Classifier
+· Canvis Locals -> Analysis Local
+· Blanc -> Colour Distribution
+· Spelucar
+· Alta Definicion (Por qué?)
+
+La idea seria entrenar classifiers i veure com es correlaciona la dificultat de la tasca (performance error)
+amb el performance de fer servir vector arithmetic per attribute manipulation, e.g.,
+tasques simples amb bon performance en attribute manipilation, i vice-versa.
 
 · AWS GPU [x]
 · Telefonica GPU
