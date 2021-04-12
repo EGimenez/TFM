@@ -7,7 +7,7 @@ from tqdm import tqdm
 import os
 
 source_dir = '../data/celeba/img/'
-source_dir = '../data/test/'
+#source_dir = '../data/test/'
 target_dir = '../data/celeba/np/'
 save_make_dir(target_dir)
 
