@@ -16,9 +16,16 @@ class FeatureProvider(object):
             df = df[df[key] == val]
         return df
 
-
     def get_np(self, features: dict, sample=0.1, sample_max=np.Inf) -> np.ndarray:
         nps = list()
+        nps_generator = self.get_np_yield(features=features, sample=sample, sample_max=sample_max)
+
+        for n in nps_generator:
+            nps.append(n)
+
+        return np.concatenate(nps)
+
+    def get_np_yield(self, features: dict, sample=0.1, sample_max=np.Inf) -> np.ndarray:
         df = self.filter_index(features)
         max_elements = min(sample * len(df) // 1, sample_max)
         cur_elements = 0
@@ -28,22 +35,21 @@ class FeatureProvider(object):
         for i in new_indexes:
             file_name = df.loc[i, 'img_id']
             try:
-                nps.append(np.load(str((self.np_path / (file_name[:-4] + '.npy')))))
+                result = np.load(str((self.np_path / (file_name[:-4] + '.npy'))))
                 cur_elements += 1
                 if cur_elements % 1000 == 0:
                     print(cur_elements)
-
+                yield result
                 if cur_elements >= max_elements:
                     break
             except:
                 pass
 
-        return np.concatenate(nps)
-
     def get_features(self) -> list:
         result = self.index.columns.values.tolist()
         result.remove('img_id')
         return result
+
 
 if __name__ == '__main__':
     fp = FeatureProvider(index=Path() / '..' / 'data' / 'celeba' / 'index' / 'list_attr_celeba_clean.txt',

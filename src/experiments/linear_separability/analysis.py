@@ -78,7 +78,7 @@ def eval_features(fp: FeatureProvider, result: Path):
 
     for f, i in zip(features, range(len(features))):
         print(f + ': ' + str(i+1) + '/' + str(len(features)))
-        results[f] = eval_feature(f)
+        results[f] = eval_feature(fp, f)
 
     if not result.parent.exists():
         result.parent.mkdir()
@@ -123,20 +123,21 @@ def eval_feature(fp: FeatureProvider, f: str):
 
 if __name__ == '__main__':
     fp = FeatureProvider(index=args['index'], np_path=args['np_files'])
-    # eval_features(fp, args['result'])
-    result = args['result']
+    if False:
+        eval_features(fp, args['result'])
+    if True:
+        result = args['result']
+        features = fp.get_features()
+        results = dict()
 
-    features = fp.get_features()
-    results = dict()
+        with Pool(5) as p:
+            results = p.map(eval_feature_f, features)
 
-    with Pool(5) as p:
-        results = p.map(eval_feature_f, features)
+        results = {r['feature_name']: {'cm': r['cm'], 'cos': r['cos']} for r in results}
 
-    results = {r['feature_name']: {'cm': r['cm'], 'cos': r['cos']} for r in results}
+        if not result.parent.exists():
+            result.parent.mkdir()
 
-    if not result.parent.exists():
-        result.parent.mkdir()
-
-    with open(result, 'w') as o:
-        json.dump(results, o)
+        with open(result, 'w') as o:
+            json.dump(results, o)
     print('hola')
