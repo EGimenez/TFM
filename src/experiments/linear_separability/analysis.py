@@ -23,6 +23,8 @@ else:
     ap.add_argument('-n', '--np_files', required=False, default=Path() / '..' / 'data' / 'celeba' / 'np', help='path directory containing the np files')
 ap.add_argument('-r', '--result', required=False, default=Path() / '..' / 'data' / 'celeba' / 'results' / 'linear_analysis' / 'results.json', help='path where result file will be set')
 ap.add_argument('-s', '--sampling', required=False, type=float, help='If sampling, indicate the percentage')
+ap.add_argument('-m', '--max_sampling', required=False, type=float, default=10000, help='If sampling, indicate the percentage')
+
 args = vars(ap.parse_args())
 
 
@@ -62,8 +64,8 @@ def eval_features(fp: FeatureProvider, result: Path):
 
     for f, i in zip(features, range(len(features))):
         print(f + ': ' + str(i+1) + '/' + str(len(features)))
-        images_0 = fp.get_np({'Blond_Hair': 0}, sample=0.1, sample_max=200000)
-        images_1 = fp.get_np({'Blond_Hair': 1}, sample=0.1, sample_max=200000)
+        images_0 = fp.get_np({'Blond_Hair': 0}, sample=0.1, sample_max=args['max_sampling'])
+        images_1 = fp.get_np({'Blond_Hair': 1}, sample=0.1, sample_max=args['max_sampling'])
 
         y_0 = np.zeros((len(images_0), 1))
         y_1 = np.ones((len(images_1), 1))
