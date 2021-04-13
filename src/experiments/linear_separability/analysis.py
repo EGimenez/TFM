@@ -9,6 +9,7 @@ from numpy import dot
 from numpy.linalg import norm
 from sklearn.preprocessing import StandardScaler
 from sklearn.linear_model import Perceptron
+from sklearn.svm import SVC
 from sklearn.metrics import confusion_matrix
 from utils.FeatureProvider import FeatureProvider
 from pathlib import Path
@@ -23,7 +24,7 @@ else:
     ap.add_argument('-n', '--np_files', required=False, default=Path() / '..' / 'data' / 'celeba' / 'np', help='path directory containing the np files')
 ap.add_argument('-r', '--result', required=False, default=Path() / '..' / 'data' / 'celeba' / 'results' / 'linear_analysis' / 'results.json', help='path where result file will be set')
 ap.add_argument('-s', '--sampling', required=False, type=float, help='If sampling, indicate the percentage')
-ap.add_argument('-m', '--max_sampling', required=False, type=float, default=10000, help='If sampling, indicate the percentage')
+ap.add_argument('-m', '--max_sampling', required=False, type=float, default=5000, help='If sampling, indicate the percentage')
 
 args = vars(ap.parse_args())
 
@@ -36,6 +37,18 @@ def run_perceptron(x, y):
     perceptron = Perceptron(random_state=0, shuffle=True, class_weight='balanced', fit_intercept=False, verbose=0)
     perceptron.fit(x, y)
     predicted = perceptron.predict(x)
+    cm = confusion_matrix(y, predicted)
+    return cm
+
+
+def run_svc(x, y):
+    # Perform feature scaling
+    sc = StandardScaler()
+    x = sc.fit_transform(x)
+
+    svm = SVC(C=1.0, kernel='linear', random_state=0, verbose=1)
+    svm.fit(x, y)
+    predicted = svm.predict(x)
     cm = confusion_matrix(y, predicted)
     return cm
 
@@ -84,6 +97,9 @@ def eval_features(fp: FeatureProvider, result: Path):
 
         cos_sim = dot(images_0, images_1)/(norm(images_0)*norm(images_1))
         print(cos_sim)
+
+        # Run SVM
+        run_svc(x, y)
 
         results[f] = {'cm': cm.tolist(), 'cos': str(cos_sim)}
 
