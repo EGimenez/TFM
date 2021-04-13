@@ -29,7 +29,7 @@ class FeatureProvider(object):
             try:
                 nps.append(np.load(str((self.np_path / (file_name[:-4] + '.npy')))))
                 cur_elements += 1
-                if cur_elements % 500 == 0:
+                if cur_elements % 1000 == 0:
                     print(cur_elements)
 
                 if cur_elements >= max_elements:

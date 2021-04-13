@@ -62,8 +62,8 @@ def eval_features(fp: FeatureProvider, result: Path):
 
     for f, i in zip(features, range(len(features))):
         print(f + ': ' + str(i+1) + '/' + str(len(features)))
-        images_0 = fp.get_np({'Blond_Hair': 0}, sample=0.1, sample_max=20)
-        images_1 = fp.get_np({'Blond_Hair': 1}, sample=0.1, sample_max=20)
+        images_0 = fp.get_np({'Blond_Hair': 0}, sample=0.1, sample_max=200000)
+        images_1 = fp.get_np({'Blond_Hair': 1}, sample=0.1, sample_max=200000)
 
         y_0 = np.zeros((len(images_0), 1))
         y_1 = np.ones((len(images_1), 1))
