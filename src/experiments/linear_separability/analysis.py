@@ -13,6 +13,7 @@ from sklearn.svm import SVC
 from sklearn.metrics import confusion_matrix
 from utils.FeatureProvider import FeatureProvider
 from pathlib import Path
+from multiprocessing import Pool
 
 
 # construct the argument parser and parse the arguments
@@ -24,7 +25,7 @@ else:
     ap.add_argument('-n', '--np_files', required=False, default=Path() / '..' / 'data' / 'celeba' / 'np', help='path directory containing the np files')
 ap.add_argument('-r', '--result', required=False, default=Path() / '..' / 'data' / 'celeba' / 'results' / 'linear_analysis' / 'results.json', help='path where result file will be set')
 ap.add_argument('-s', '--sampling', required=False, type=float, help='If sampling, indicate the percentage')
-ap.add_argument('-m', '--max_sampling', required=False, type=float, default=5000, help='If sampling, indicate the percentage')
+ap.add_argument('-m', '--max_sampling', required=False, type=float, default=20, help='If sampling, indicate the percentage')
 
 args = vars(ap.parse_args())
 
@@ -77,6 +78,22 @@ def eval_features(fp: FeatureProvider, result: Path):
 
     for f, i in zip(features, range(len(features))):
         print(f + ': ' + str(i+1) + '/' + str(len(features)))
+        results[f] = eval_feature(f)
+
+    if not result.parent.exists():
+        result.parent.mkdir()
+
+    with open(result, 'w') as o:
+        json.dump(results, o)
+
+
+def eval_feature_f(f):
+    fp = FeatureProvider(index=args['index'], np_path=args['np_files'])
+
+    return eval_feature(fp, f)
+
+
+def eval_feature(fp: FeatureProvider, f: str):
         images_0 = fp.get_np({'Blond_Hair': 0}, sample=0.1, sample_max=args['max_sampling'])
         images_1 = fp.get_np({'Blond_Hair': 1}, sample=0.1, sample_max=args['max_sampling'])
 
@@ -99,18 +116,27 @@ def eval_features(fp: FeatureProvider, result: Path):
         print(cos_sim)
 
         # Run SVM
-        run_svc(x, y)
+        # run_svc(x, y)
 
-        results[f] = {'cm': cm.tolist(), 'cos': str(cos_sim)}
+        return {'feature_name': f, 'cm': cm.tolist(), 'cos': str(cos_sim)}
+
+
+if __name__ == '__main__':
+    fp = FeatureProvider(index=args['index'], np_path=args['np_files'])
+    # eval_features(fp, args['result'])
+    result = args['result']
+
+    features = fp.get_features()
+    results = dict()
+
+    with Pool(5) as p:
+        results = p.map(eval_feature_f, features)
+
+    results = {r['feature_name']: {'cm': r['cm'], 'cos': r['cos']} for r in results}
 
     if not result.parent.exists():
         result.parent.mkdir()
 
     with open(result, 'w') as o:
         json.dump(results, o)
-
-
-if __name__ == '__main__':
-    fp = FeatureProvider(index=args['index'], np_path=args['np_files'])
-    eval_features(fp, args['result'])
     print('hola')

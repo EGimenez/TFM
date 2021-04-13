@@ -16,7 +16,8 @@ class FeatureProvider(object):
             df = df[df[key] == val]
         return df
 
-    def get_np(self, features: dict, sample=0.1, sample_max=np.Inf):
+
+    def get_np(self, features: dict, sample=0.1, sample_max=np.Inf) -> np.ndarray:
         nps = list()
         df = self.filter_index(features)
         max_elements = min(sample * len(df) // 1, sample_max)
