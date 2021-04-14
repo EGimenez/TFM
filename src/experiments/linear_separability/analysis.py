@@ -11,7 +11,7 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.linear_model import Perceptron
 from sklearn.svm import SVC
 from sklearn.metrics import confusion_matrix
-from utils.FeatureProvider import FeatureProvider
+from utils.GlowProvider import GlowProvider
 from pathlib import Path
 from multiprocessing import Pool
 
@@ -72,7 +72,7 @@ def show_matrix(cm, title):
     plt.show()
 
 
-def eval_features(fp: FeatureProvider, result: Path):
+def eval_features(fp: GlowProvider, result: Path):
     features = fp.get_features()
     results = dict()
 
@@ -88,12 +88,12 @@ def eval_features(fp: FeatureProvider, result: Path):
 
 
 def eval_feature_f(f):
-    fp = FeatureProvider(index=args['index'], np_path=args['np_files'])
+    fp = GlowProvider(index=args['index'], np_path=args['np_files'])
 
     return eval_feature(fp, f)
 
 
-def eval_feature(fp: FeatureProvider, f: str):
+def eval_feature(fp: GlowProvider, f: str):
         images_0 = fp.get_np({'Blond_Hair': 0}, sample=0.1, sample_max=args['max_sampling'])
         images_1 = fp.get_np({'Blond_Hair': 1}, sample=0.1, sample_max=args['max_sampling'])
 
@@ -122,7 +122,7 @@ def eval_feature(fp: FeatureProvider, f: str):
 
 
 if __name__ == '__main__':
-    fp = FeatureProvider(index=args['index'], np_path=args['np_files'])
+    fp = GlowProvider(index=args['index'], np_path=args['np_files'])
     if False:
         eval_features(fp, args['result'])
     if True:

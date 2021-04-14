@@ -27,7 +27,7 @@ for n in range(my_num):
 
     eps_1 = glow_api.load_encode(source_dir, file_name)
 
-    glow_api.save_decoce(eps_1, result_dir, file_name[0:-4]+'.jpg')
-    glow_api.save_decoce(-eps_1, result_dir, file_name[0:-4]+'_specular'+'.jpg')
+    glow_api.save_decode(eps_1, result_dir, file_name[0:-4] + '.jpg')
+    glow_api.save_decode(-eps_1, result_dir, file_name[0:-4] + '_specular' + '.jpg')
 
 print('done')

@@ -15,12 +15,18 @@ RoadMap
 · Por qué 0 es igual a blanco? []
 · Sumar smiling a una cara real []
 
+
+Short Next Steps
+· Cosine +- features []
+· Spelucar
+· Big Averages of Features
+· Classifier Out-of-memory []
+
+
 Next Steps
 · Feature Translation
-· Classifier
 · Canvis Locals -> Analysis Local
 · Blanc -> Colour Distribution
-· Spelucar
 · Alta Definicion (Por qué?)
 · Mirar si la localitat depend de l'ordenacio dels components
 · Hacer print de los componentes del modelo
@@ -28,7 +34,7 @@ Next Steps
     repasar generacion caras Andrea
 · Mirar
     - https://github.com/karpathy/pytorch-normalizing-flows
-    https://github.com/karpathy/pytorch-normalizing-flows/blob/master/nflib1.ipynb
+    - https://github.com/karpathy/pytorch-normalizing-flows/blob/master/nflib1.ipynb
 
 
 La idea seria entrenar classifiers i veure com es correlaciona la dificultat de la tasca (performance error)

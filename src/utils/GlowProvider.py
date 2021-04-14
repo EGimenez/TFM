@@ -1,12 +1,18 @@
+import os
 import pandas as pd
 import numpy as np
 from pathlib import Path
+from utils.get_celeba_info import get_celeba_index
+from typing import Tuple
 
 
-class FeatureProvider(object):
+class GlowProvider(object):
 
     def __init__(self, index, img_path: Path = None, np_path: Path = None):
-        self.index = pd.read_csv(str(index), sep=' ')
+        # self.index: pd.DataFrame = pd.read_csv(str(index), sep=' ')
+        aux = get_celeba_index()
+        aux.set_index('img_id', inplace=True, drop=False)
+        self.index = aux
         self.img_path = img_path
         self.np_path = np_path
 
@@ -47,13 +53,40 @@ class FeatureProvider(object):
 
     def get_features(self) -> list:
         result = self.index.columns.values.tolist()
-        result.remove('img_id')
+
+        try:
+            result.remove('img_id')
+        except:
+            pass
+        try:
+            result.remove('person_id')
+        except:
+            pass
+
         return result
+
+    def get_np_with_features(self, np_name: str) -> Tuple[np.ndarray, dict]:
+        indexes = self.index
+
+        result = np.load(str((self.np_path / (np_name[:-4] + '.npy'))))
+        return result.copy(), self.index.loc[np_name].to_dict()
+
+    def get_image_names(self):
+        image_names = []
+        for file_name in self.index.index.tolist():
+            if (self.np_path / (file_name[:-4] + '.npy')).exists():
+                image_names.append(file_name)
+
+        return image_names
+
+    def get_np_num(self):
+        list = os.listdir(self.np_path)
+        return len(list)
 
 
 if __name__ == '__main__':
-    fp = FeatureProvider(index=Path() / '..' / 'data' / 'celeba' / 'index' / 'list_attr_celeba_clean.txt',
-                         np_path=Path('E:/NOT_BACKUP/TFM') / 'data' / 'celeba' / 'np')
+    fp = GlowProvider(index=Path() / '..' / 'data' / 'celeba' / 'index' / 'list_attr_celeba_clean.txt',
+                      np_path=Path('E:/NOT_BACKUP/TFM') / 'data' / 'celeba' / 'np')
 
     images = fp.get_np({'Blond_Hair': 1})
 
