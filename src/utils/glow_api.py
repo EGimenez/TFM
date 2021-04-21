@@ -3,15 +3,18 @@ from PIL import Image
 import numpy as np
 
 
-def load_encode(path, file_name):
+def load_encode(path, file_name, resize=False):
     try:
         img = Image.open(path+file_name)
     except:
         img = Image.open(path/file_name)
 
-    new_size = (256, 256)
-    img = img.resize(new_size)
-    img = np.reshape(np.array(img), [1, 256, 256, 3])
+    if resize:
+        new_size = (256, 256)
+        img = img.resize(new_size)
+    else:
+        img = np.reshape(np.array(img), [1, 256, 256, 3])
+
     eps = glow.encode(img)
     return eps
 

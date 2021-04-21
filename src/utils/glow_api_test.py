@@ -1,29 +1,30 @@
-import utils.start_tf
-from utils.start_tf import *
-import glow_api
 from utils.test_dir import save_make_dir
 import glob
 from tqdm import tqdm
 import os
+import utils.glow_api as glow_api
 
 source_dir = '../data/celeba_wild/data_256_fast/'
-#source_dir = '../data/test/'
-target_dir = '../data/celeba_wild/np/'
+target_dir = '../data/celeba_wild/data_encode_decode_test/'
 save_make_dir(target_dir)
 
 
-def convert_img_2_np():
+def encode_decode():
     cwd = os.getcwd()
     os.chdir(source_dir)
     aux = list(glob.glob('*'))
     os.chdir(cwd)
 
+    i = 0
     for img_file in tqdm(aux):
         eps = glow_api.load_encode(source_dir, img_file)
-        np.save(target_dir+img_file[:-4]+'.npy', eps)
+        glow_api.save_decode(eps, target_dir, img_file)
+        i += 1
+        if i > 10:
+            break
 
 
 if __name__ == '__main__':
     print('converting')
-    convert_img_2_np()
+    encode_decode()
     print('done')
