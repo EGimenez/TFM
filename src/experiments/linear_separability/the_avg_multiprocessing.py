@@ -60,13 +60,13 @@ if __name__ == '__main__':
     # Get Process Variables
     # construct the argument parser and parse the arguments
     ap = argparse.ArgumentParser()
-    ap.add_argument('-i', '--index', required=False, default=Path() / '..' / 'data' / 'celeba' / 'index' / 'list_attr_celeba_clean.txt',  help='path index file')
+    ap.add_argument('-i', '--index', required=False, default=Path() / '..' / 'data' / 'celeba_wild' / 'index' / 'list_attr_celeba_clean.txt',  help='path index file')
     if platform.system() == 'Windows':
         # ap.add_argument('-n', '--np_files', required=False, default=Path('E:/NOT_BACKUP/TFM') / 'data' / 'celeba' / 'np', help='path directory containing the np files')
-        ap.add_argument('-n', '--np_files', required=False, default=Path() / '..' / 'data' / 'celeba' / 'np', help='path directory containing the np files')
+        ap.add_argument('-n', '--np_files', required=False, default=Path() / '..' / 'data' / 'celeba_wild' / 'np', help='path directory containing the np files')
     else:
-        ap.add_argument('-n', '--np_files', required=False, default=Path() / '..' / 'data' / 'celeba' / 'np', help='path directory containing the np files')
-    ap.add_argument('-r', '--result', required=False, default=Path() / '..' / 'data' / 'celeba' / 'results' / 'linear_analysis',
+        ap.add_argument('-n', '--np_files', required=False, default=Path() / '..' / 'data' / 'celeba_wild' / 'np', help='path directory containing the np files')
+    ap.add_argument('-r', '--result', required=False, default=Path() / '..' / 'data' / 'celeba_wild' / 'results' / 'linear_analysis',
                     help='path where result file will be set')
     ap.add_argument('-s', '--sampling', required=False, type=float, help='If sampling, indicate the percentage')
     ap.add_argument('-m', '--max_sampling', required=False, type=float, default=20, help='If sampling, indicate the percentage')
@@ -84,7 +84,7 @@ if __name__ == '__main__':
     results = multiprocessing.Queue()
 
     # Start consumers
-    num_consumers = multiprocessing.cpu_count() * 2 - 2
+    num_consumers = 2 #multiprocessing.cpu_count() * 2 - 2
     print('Creating %d consumers' % num_consumers)
     consumers = [AvConsumer(tasks, results, index_path=args['index'], np_path=args['np_files']) for i in range(num_consumers)]
     for w in consumers:
@@ -129,7 +129,7 @@ if __name__ == '__main__':
         if key == ('Male', 1):
             print('hola')
         the_results[key]['np'] /= the_results[key]['count']
-        print(the_results[('Male', 1)]['np'][0, 1])
+        #print(the_results[('Male', 1)]['np'][0, 1])
 
     # The norms
     the_norms = {}
