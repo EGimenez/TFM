@@ -84,7 +84,7 @@ if __name__ == '__main__':
     results = multiprocessing.Queue()
 
     # Start consumers
-    num_consumers = 2 #multiprocessing.cpu_count() * 2 - 2
+    num_consumers = multiprocessing.cpu_count() * 2 - 2
     print('Creating %d consumers' % num_consumers)
     consumers = [AvConsumer(tasks, results, index_path=args['index'], np_path=args['np_files']) for i in range(num_consumers)]
     for w in consumers:
