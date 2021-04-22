@@ -19,8 +19,9 @@ def convert_img_2_np():
     os.chdir(cwd)
 
     for img_file in tqdm(aux):
-        eps = glow_api.load_encode(source_dir, img_file)
-        np.save(target_dir+img_file[:-4]+'.npy', eps)
+        if not os.path.exists(target_dir+img_file[:-4]+'.npy'):
+            eps = glow_api.load_encode(source_dir, img_file)
+            np.save(target_dir+img_file[:-4]+'.npy', eps)
 
 
 if __name__ == '__main__':
