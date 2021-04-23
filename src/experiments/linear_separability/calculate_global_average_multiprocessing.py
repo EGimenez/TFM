@@ -59,7 +59,7 @@ if __name__ == '__main__':
     gp_file_names_iterator = chunks(the_files, 1000)
 
     # Start consumers
-    num_consumers = mpm.get_max_processors_num()
+    num_consumers = 6 # mpm.get_max_processors_num()
     print('Creating %d consumers' % num_consumers)
     for w in range(num_consumers):
         mpm.add_processor(AvProcessor)
