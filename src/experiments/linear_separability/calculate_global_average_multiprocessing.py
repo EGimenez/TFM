@@ -67,8 +67,6 @@ if __name__ == '__main__':
     # Enqueue jobs
     num_jobs = 0
     for the_nps in gp_file_names_iterator:
-        print('the_nps')
-        print(the_nps)
         mpm.send_task({'img': the_nps})
 
     # We sum everything up
