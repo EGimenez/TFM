@@ -56,7 +56,7 @@ if __name__ == '__main__':
     the_files = list(glob(np_path + '*.npy'))
     the_files_num = len(the_files)
 
-    gp_file_names_iterator = chunks(the_files, 10)
+    gp_file_names_iterator = chunks(the_files, 100)
 
     # Start consumers
     num_consumers = mpm.get_max_processors_num()
