@@ -56,7 +56,7 @@ if __name__ == '__main__':
     the_files = list(glob(np_path + '*.npy'))
     the_files_num = len(the_files)
 
-    gp_file_names_iterator = chunks(the_files)
+    gp_file_names_iterator = chunks(the_files, 10)
 
     # Start consumers
     num_consumers = 1 # mpm.get_max_processors_num()
@@ -67,6 +67,8 @@ if __name__ == '__main__':
     # Enqueue jobs
     num_jobs = 0
     for the_nps in gp_file_names_iterator:
+        print('the_nps')
+        print(the_nps)
         mpm.send_task({'img': the_nps})
 
     # We sum everything up
