@@ -3,7 +3,7 @@ from glob import glob
 import numpy as np
 from tqdm import tqdm
 root_path = f'../data/celeba_wild/'
-root_path = f'../data/celeba/'
+#root_path = f'../data/celeba/'
 
 np_path = root_path + 'np/'
 re_path = root_path + 'results/linear_analysis/'
