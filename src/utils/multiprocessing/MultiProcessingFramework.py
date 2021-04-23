@@ -95,6 +95,9 @@ class MultiProcessManager(object):
         else:
             return None
 
+    def get_max_processors_num(self):
+        return mp.cpu_count() * 2 - 2
+
 
 def chunks(yield_lst, chunk_size=100):
     """Yield successive n-sized chunks from lst."""
@@ -110,7 +113,11 @@ def chunks(yield_lst, chunk_size=100):
             list_size = 1
 
         if list_size == chunk_size:
-            yield list_size
+            yield chunked_list
+
+    yield chunked_list
+
+
 
 
 class MyProcessor(Processor):
