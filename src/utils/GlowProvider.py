@@ -10,7 +10,7 @@ class GlowProvider(object):
 
     def __init__(self, index, img_path: Path = None, np_path: Path = None):
         # self.index: pd.DataFrame = pd.read_csv(str(index), sep=' ')
-        aux = get_celeba_index()
+        aux = get_celeba_index(index)
         aux.set_index('img_id', inplace=True, drop=False)
         self.index = aux
         self.img_path = img_path

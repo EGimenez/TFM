@@ -1,7 +1,7 @@
 # https://pymotw.com/3/multiprocessing/communication.html
 # This script is produced to see if the average of all points in the latent space is zero
 
-from utils.multiprocessing.MultiProcessingFramework import Processor, MultiProcessManager, chunks
+from utils.multiprocessing_eg.MultiProcessingFramework import Processor, MultiProcessManager, chunks
 
 import numpy as np
 from numpy import dot
