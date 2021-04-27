@@ -14,6 +14,7 @@ from sklearn.metrics import confusion_matrix
 from utils.GlowProvider import GlowProvider
 from pathlib import Path
 from multiprocessing import Pool
+import config
 
 
 # construct the argument parser and parse the arguments
