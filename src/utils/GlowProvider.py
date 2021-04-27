@@ -4,6 +4,7 @@ import numpy as np
 from pathlib import Path
 from utils.get_celeba_info import get_celeba_index
 from typing import Tuple
+import config
 
 
 class GlowProvider(object):
@@ -85,8 +86,8 @@ class GlowProvider(object):
 
 
 if __name__ == '__main__':
-    fp = GlowProvider(index=Path() / '..' / 'data' / 'celeba' / 'index' / 'list_attr_celeba_clean.txt',
-                      np_path=Path('E:/NOT_BACKUP/TFM') / 'data' / 'celeba' / 'np')
+    fp = GlowProvider(index=config.index_path / 'list_attr_celeba_clean.txt',
+                      np_path=config.data_path / 'np')
 
     images = fp.get_np({'Blond_Hair': 1})
 
