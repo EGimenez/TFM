@@ -5,6 +5,11 @@ import multiprocessing as mp
 import json
 from glob import glob
 import time
+import numpy as np
+# import json
+import os
+#os.nice(0)
+import psutil
 
 
 class Processor(mp.Process):
@@ -15,6 +20,7 @@ class Processor(mp.Process):
         if name:
             self.name = name
         self.total_num_task = total_num_task
+        self.lock : mp.Lock = None
 
     def run(self):
         proc_name = self.name
@@ -23,7 +29,15 @@ class Processor(mp.Process):
 
         while True:
             # {'img': imgs, 'num_task': num_tasks, 'total_num_task': gp_file_total}
+            #time.sleep(np.random.randint(0,10))
+            t_0 = time.time()
             next_task = self.task_queue.get()
+            t_1 = time.time()
+            print('{}: New Tastk: {}'.format(proc_name, t_1-t_0))
+            #print('str: {}'.format(next_task))
+            #if next_task:
+            #    next_task = json.loads(next_task)
+            #    print('json: {}'.format(next_task))
             if next_task is None:
                 # Poison pill means shutdown
                 print('%s: Exiting' % proc_name)
@@ -35,6 +49,7 @@ class Processor(mp.Process):
                 break
 
             print('{}: {} / {}'.format(proc_name, next_task['id'], self.total_num_task))
+            # print('{}: {}'.format(proc_name, next_task))
 
             result = self.process_task(next_task['task'])
 
@@ -59,11 +74,13 @@ class MultiProcessManager(object):
         self.results = mp.Queue()
         self.tasks_id = 0
         self.hash_broadcasted = False
+        self.lock = mp.Lock()
 
     def add_processor(self, new_processor_):
         new_processor = new_processor_()
         new_processor.task_queue = self.tasks
         new_processor.result_queue = self.results
+        new_processor.lock = self.lock
         if not new_processor.name:
             new_processor.name = str(len(self.processors_list)+1)
         self.processors_list.append(new_processor)
@@ -73,7 +90,10 @@ class MultiProcessManager(object):
         task_wrapper = {}
         self.tasks_id += 1
         task_wrapper['id'] = self.tasks_id
-        task_wrapper['task'] = task
+        task_wrapper['task'] = task.copy()
+        # print('Task Manager: {}'.format(task))
+        # time.sleep(1)
+        # task_wrapper = json.dumps(task_wrapper)
         self.tasks.put(task_wrapper)
 
     def broadcast_end(self):
@@ -108,14 +128,15 @@ def chunks(yield_lst, chunk_size=100):
         chunked_list.append(e)
         list_size += 1
 
-        if list_size > chunk_size:
-            chunked_list = [e]
-            list_size = 1
-
         if list_size == chunk_size:
             yield chunked_list
+            chunked_list = []
+            list_size = 0
 
-    yield chunked_list
+    if chunked_list:
+        yield chunked_list
+    else:
+        None
 
 
 

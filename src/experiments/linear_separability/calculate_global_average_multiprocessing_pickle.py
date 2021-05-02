@@ -3,7 +3,6 @@
 
 from utils.multiprocessing_eg.MultiProcessingFramework import Processor, MultiProcessManager, chunks
 from utils.test_dir import save_make_dir
-import os
 
 import numpy as np
 from numpy import dot
@@ -14,11 +13,10 @@ import config
 from time import time
 import psutil
 import pickle
-from utils.FileNPAbstraction import fnpa
 
 
 np_path = config.data_path / 'pickle'
-np_path = config.data_path / 'np'
+#np_path = config.data_path / 'np'
 re_path = config.results_path / 'linear_analysis_multiprocessing_test'
 save_make_dir(re_path)
 
@@ -39,13 +37,9 @@ class AvProcessor(Processor):
         #self.lock.acquire()
         for np_name in task['img']:
             t0 = time()
-           # an_np = np.load(np_name)
-            try:
-                an_np = fnpa.get_np(np_name)
-            except:
-                print('eo')
-            #with open(np_name, 'rb') as f:
-            #    an_np = pickle.load(f)
+            #an_np = np.load(np_name)
+            with open(np_name, 'rb') as f:
+                an_np = pickle.load(f)
             t1 = time()
             loading += t1 - t0
             t0 = time()
@@ -86,16 +80,9 @@ if __name__ == '__main__':
     mpm = MultiProcessManager()
 
     # Tasks
-    #the_files = list(glob((np_path / '*.pkl').as_posix()))
+    the_files = list(glob((np_path / '*.pkl').as_posix()))
     #the_files = list(glob((np_path / '*.npy').as_posix()))
-    #the_files_num = len(the_files)
-
-    cwd = os.getcwd()
-    os.chdir(np_path)
-    the_files = os.listdir()
-    the_files.sort()
     the_files_num = len(the_files)
-    os.chdir(cwd)
 
     gp_file_names_iterator = chunks(the_files, 1000)
 

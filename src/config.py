@@ -1,6 +1,8 @@
 import platform
 from pathlib import Path
 
+block_size = 1000
+
 if platform.system() == 'Windows':
     data_path = Path('E:/NOT_BACKUP/TFM/data/celeba_wild')
     models_path = Path('./models')
